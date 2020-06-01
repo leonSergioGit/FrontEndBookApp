@@ -2,9 +2,35 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+.bookContainer {
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+  justify-content: space-evenly;
+  padding: 10px 0 10px 0;
+  cursor: pointer;
+}
+
+
+.bcTitle > span {
+  font-weight: bolder;
+}
+
+.bookContainer {
+  width: 80%;
+  margin: 0 auto;
+  
+}
+
+span {
+  text-align: left;
+  padding-left: 100px;
+  width: 25%;
+}
+
+.bookName {
+  font-weight: bolder;
 }
 
 @media (prefers-reduced-motion: no-preference) {

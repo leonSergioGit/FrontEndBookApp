@@ -11,8 +11,9 @@ export interface IBookProps {
 }
 
 export interface IBook {
-    id: string,
+    _id: string,
     name: string,
+    language: string,
     author: string,
     isFinished: boolean
 }

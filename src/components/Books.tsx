@@ -1,44 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FunctionComponent, MouseEvent } from 'react';
 import axios from 'axios';
-import { IBookProps, IBook } from '../interfaces/Interfaces';
+import { IBook } from '../interfaces/Interfaces';
 
 
-const Books: React.SFC<IBookProps> = props => {
+type IBookProps = {
+    bookList: IBook[]
+}
 
-    const [books, setBooks] = useState<IBook[]>([]);
+const Books: FunctionComponent<IBookProps> = ({ bookList }) => {
 
-    const getBooks = async () => {
-        let bookList = await (await axios.get('http://localhost:5000/api/v1/books/')).data.data;
-        setBooks(bookList);
+
+    const bookInfo = (id: string) => {
+        console.log(id)
     }
 
-    useEffect(() => {
-        getBooks();
-    }, [])
-
-    console.log(books);
-    if(books) {
-        return (
-            <section>
-                <div>
-                    {
-                        books.map(book => (
-                            <div>
-                             <h3>{book.id}</h3>
-                             <h3>{book.name}</h3>
-                             <h3>{book.author}</h3>
-                             <h3>{book.isFinished}</h3>
-                            </div>
-                        ))
-                    }
+    let books = bookList.map((book, index) => {
+            return <div key={index} className="bookContainer" onClick={() => {bookInfo(book._id)}}>
+                    <span className="bookName">{index = index + 1}. {book.name}</span><span>{book.author}</span><span>{book.language}</span><span>{book.isFinished}</span>
                 </div>
-            </section>
-         )
-    } else {
-        return (
-            <h1>hola</h1>
-        )
-    }
+        })
+
+    return (
+        <div className="list">
+            <div className="bookContainer bcTitle" >
+                <span>Name</span><span>Author</span><span>Language</span><span>Date</span>
+            </div>
+            {books}
+        </div>
+    )
     
 }   
 
