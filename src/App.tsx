@@ -12,7 +12,6 @@ import './App.css';
 
 const App: FunctionComponent<IAppProps> = props  => {
 
-  
   const [books, setBooks] = useState<IBook[]>([]);
 
 
@@ -21,26 +20,32 @@ const App: FunctionComponent<IAppProps> = props  => {
       setBooks(bookList);
   }
 
-  const handleChild = (book: any) => {
+  const handleAddBooks = (book: IBook) => {
     setBooks([...books, book])
+  }
+
+  const handleDeleteBooks = (bookId: string) => {
+      setBooks(books.filter(e => e._id != bookId ))
   }
 
   useEffect(() => {
     getBooks();
-    console.log("hola")
   }, [])
 
   useEffect(() => {
-    console.log(books)
     setBooks(books)
   }, [books])
 
   return (
     <div className="App">
         <AddBook 
-          sendNewBook={handleChild}
+          sendNewBook={handleAddBooks}
         />
-        <Books bookList={books}/>
+        <Books 
+          bookList={books}
+          deleteBook={handleDeleteBooks}
+
+          />
     </div>
   );
 }

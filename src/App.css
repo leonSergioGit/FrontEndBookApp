@@ -33,6 +33,17 @@ span {
   font-weight: bolder;
 }
 
+.modal {
+  background-color: cornflowerblue;
+  border: 2px solid black;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%)
+
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
