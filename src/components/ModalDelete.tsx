@@ -4,29 +4,34 @@ import axios from 'axios';
 
 type ModalProps = {
     book: IBook,
-    delBook: Function
+    delBook: Function,
+    setOpen: Function,
+    open: boolean
 }
 
-const ModalDelete: FunctionComponent<ModalProps> = ({ book, delBook }) => {
+const ModalDelete: FunctionComponent<ModalProps> = ({ book, delBook, open, setOpen }) => {
     
     const [show, setShow] = useState<IBook | null>();
+    
 
     useEffect(() => {
-        
-        setShow(book);
+        setShow(book);    
     }, [book])
 
+
     const submit = () => {
-        axios.delete(`http://localhost:5000/api/v1/books/${book._id}`)
+        axios.delete(`http://localhost:5001/api/v1/books/${book._id}`)
         delBook(book._id);
-        setShow(null);
+        setOpen(false)
+        
     }
 
     const cancel = () => {
-        setShow(null);
+       setOpen(false)
+
     }
 
-    if(show) {
+    if(open) {
         return (
             <div className="modal">
                 <h3>Do you wish to delete this book from the database?</h3>

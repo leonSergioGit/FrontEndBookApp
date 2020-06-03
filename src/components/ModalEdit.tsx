@@ -4,13 +4,17 @@ import axios from 'axios';
 
 type ModalProps = {
     book: IBook,
-    editBook: Function
+    editBook: Function,
+    setOpenEdit: Function,
+    openEdit: boolean
 }
-//NEXT STEPS: SEND EDIT BOOK TO PARENT TO SHOW CHANGES AUTOMATICALLY
-              //FIX THE PROBLEM WITH THE BUTTONS
 
 
-const ModalEdit:FunctionComponent<ModalProps> = ({ book, editBook }) => {
+
+
+
+
+const ModalEdit:FunctionComponent<ModalProps> = ({ book, editBook, setOpenEdit, openEdit }) => {
 
         const [show, setShow] = useState<IBook | null>();
 
@@ -19,7 +23,8 @@ const ModalEdit:FunctionComponent<ModalProps> = ({ book, editBook }) => {
         const [bookName, setBookName] = useState("");
         const [bookAuthor, setBookAuthor] = useState("");
         const [bookLanguage, setBookLanguage] = useState("");
-        const [bookIsFinished, setBookIsFinished] = useState<boolean | string>(); 
+        const [bookIsFinished, setBookIsFinished] = useState("")
+        const [date, setDate] = useState<Date>(new Date);
     
     
         useEffect(() => {
@@ -49,34 +54,38 @@ const ModalEdit:FunctionComponent<ModalProps> = ({ book, editBook }) => {
         }
     
         const handleRadio = (evt: FormEvent<HTMLInputElement>) => {
-            setBookIsFinished(evt.currentTarget.value === "true" ? true : false)
+            setBookIsFinished(evt.currentTarget.value)
+            console.log(typeof bookIsFinished)
+        }
+
+        const handleDate = (evt: FormEvent<HTMLInputElement>) => {
+            setDate(new Date(evt.currentTarget.value));
         }
 
 
-
-    const submit = () => {
-        axios.put(`http://localhost:5000/api/v1/books/${book._id}`, { name: bookName, author: bookAuthor, language: bookLanguage, isFinished: bookIsFinished})
-        editBook();
-        setShow(null);
+    const submit = async () => {
+        let editedBook = await axios.put(`http://localhost:5001/api/v1/books/${book._id}`, {_id: book._id, name: bookName, author: bookAuthor, language: bookLanguage, isFinished: bookIsFinished, date: date})
+        editBook(JSON.parse(editedBook.config.data));
+        setOpenEdit(false)
     }
 
     const cancel = () => {
-        setShow(null);
-        console.log("hola")
+        setOpenEdit(false);
     }
 
-    if(show) {
+    if(openEdit) {
         return (
             <div className="modal">
                 <h3>Do you wish to edit this book from the database?</h3>
                 <form>
-                    <div><label htmlFor="">Name: </label> <input type="text" onChange={handleName} value={bookName} name="name"/></div>
-                    <div><label htmlFor="">Author: </label> <input type="text"  onChange={handleAuthor} value={bookAuthor} name="author"/></div>
-                    <div><label htmlFor="">Language </label> <input type="text"  onChange={handleLanguage}  value={bookLanguage} name="language" /></div>
+                    <div><label htmlFor="">Name: </label> <input type="text" onChange={handleName} value={bookName || ""} name="name"/></div>
+                    <div><label htmlFor="">Author: </label> <input type="text"  onChange={handleAuthor} value={bookAuthor || ""} name="author"/></div>
+                    <div><label htmlFor="">Language </label> <input type="text"  onChange={handleLanguage}  value={bookLanguage || ""}  name="language" /></div>
+                    <div><label htmlFor="">Date </label> <input type="date" onChange={handleDate} name="date" /></div>
                     <div>
                         <label htmlFor="">Finished: </label> 
-                            <label htmlFor="">Yes </label><input type="radio" name="isFinished" value="true" onChange={handleRadio} checked={bookIsFinished == "true" ? true : false}/>
-                            <label htmlFor="">No</label><input type="radio" name="isFinished"  value="false" onChange={handleRadio} checked={bookIsFinished == "false" ? true : false}/>
+                            <label htmlFor="">Yes </label><input type="radio" name="isFinished" value="true" onChange={handleRadio || ""} />
+                            <label htmlFor="">No</label><input type="radio" name="isFinished"  value="false" onChange={handleRadio || ""} />
                     </div>
                 </form>
                 <button onClick={submit}>Yes</button><button onClick={cancel}>No</button>

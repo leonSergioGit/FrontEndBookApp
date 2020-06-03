@@ -2,6 +2,9 @@ import React, { useState, useEffect, FunctionComponent, MouseEvent, FormEvent } 
 import axios from 'axios';
 import { IBook } from '../interfaces/Interfaces';
 
+import '../App.css';
+
+
 
 //Props interface
 interface SendNewBook {
@@ -17,6 +20,7 @@ const AddBook: FunctionComponent<SendNewBook> =  ( { sendNewBook } )  => {
     const [bookAuthor, setBookAuthor] = useState("");
     const [bookLanguage, setBookLanguage] = useState("");
     const [bookIsFinished, setBookIsFinished] = useState(false); 
+    const [date, setDate] = useState<Date>(new Date);
 
 
 
@@ -38,29 +42,37 @@ const AddBook: FunctionComponent<SendNewBook> =  ( { sendNewBook } )  => {
         setBookIsFinished(evt.currentTarget.value === "true" ? true : false)
     }
 
+    const handleDate = (evt: FormEvent<HTMLInputElement>) => {
+        setDate(new Date(evt.currentTarget.value));
+    }
+
     /***********************************************/
 
 
 
     const submit = async (e: MouseEvent) => {
         e.preventDefault();
-        let addBook = await axios.post("http://localhost:5000/api/v1/books/", { name: bookName, author: bookAuthor, language: bookLanguage, isFinished: bookIsFinished});
+        let addBook = await axios.post("http://localhost:5001/api/v1/books/", { name: bookName, author: bookAuthor, language: bookLanguage, isFinished: bookIsFinished, date: date});
+        console.log(addBook)
         sendNewBook( JSON.parse(addBook.request.response).data);
     }
 
     return (
-        <div>
+        <div className="addBookContainer">
             <h1>Add book to the database</h1>
-           <form>
-                <div><label htmlFor="">Name: </label> <input type="text" onChange={handleName} name="name"/></div>
-                <div><label htmlFor="">Author: </label> <input type="text" onChange={handleAuthor} name="author"/></div>
-                <div><label htmlFor="">Language </label> <input type="text" onChange={handleLanguage} name="language" /></div>
+           <form className="formAdd">
+               <div className="inputGrid">
+                <label htmlFor="">Name: </label> <input type="text" onChange={handleName} name="name"/>
+                <label htmlFor="">Author: </label> <input type="text" onChange={handleAuthor} name="author"/>
+                <label htmlFor="">Language: </label> <input type="text" onChange={handleLanguage} name="language" />
+                <label htmlFor="">Date </label> <input type="date" onChange={handleDate} name="date" />
+                </div>
                 <div>
                     <label htmlFor="">Finished: </label> 
                         <label htmlFor="">Yes </label><input type="radio" name="isFinished" value="true" onChange={handleRadio}/>
                         <label htmlFor="">No</label><input type="radio" name="isFinished"  value="false" onChange={handleRadio} checked/>
-                </div>
-                <button onClick={submit}>Submit</button>
+                </div><br/>
+                <button className="submitAdd" onClick={submit}>Submit</button>
            </form>
         </div>
     )

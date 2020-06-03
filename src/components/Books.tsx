@@ -7,14 +7,19 @@ import ModalEdit from './ModalEdit';
 
 type IBookProps = {
     bookList: IBook[],
-    deleteBook: Function
+    deleteBook: Function,
+    handleEdit: Function
 }
 
-const Books: FunctionComponent<IBookProps> = ({ bookList, deleteBook }) => {
+const Books: FunctionComponent<IBookProps> = ({ bookList, deleteBook, handleEdit }) => {
 
     const [selectedBook, setBook] = useState<IBook | any>();
     const [AllBooks, setBooks] = useState<IBook[]>();
     const [isEditing, setIsEditing] = useState<IBook | any>();
+
+    const [isActive, setIsActive] = useState(false);
+
+    const [isEditActive, setIsEditActive] = useState(false);
 
 
     const bookInfo = (book: IBook) => {
@@ -34,10 +39,19 @@ const Books: FunctionComponent<IBookProps> = ({ bookList, deleteBook }) => {
 
     const deleteBooks = (id: string) => {
         deleteBook(id);
+    
     }
 
     const editBook = (book: IBook) => {
-        console.log(book)
+        let index;
+
+        bookList.forEach((e, indx) => {
+            if(e._id === book._id){
+                index = indx;
+            }
+        })
+
+        handleEdit(book, index);
     }
 
 
@@ -46,14 +60,17 @@ const Books: FunctionComponent<IBookProps> = ({ bookList, deleteBook }) => {
 
     if(AllBooks){
         books = AllBooks.map((book, index) => {
+            let parsedDate = book.date.toLocaleString().split("T")[0];
+            console.log(parsedDate)
             return <div key={index} className="bookContainer">
                     <span className="bookName">{index = index + 1}. {book.name}</span>
                     <span>{book.author}</span>
                     <span>{book.language}</span>
                     <span>{book.isFinished}</span>
-                    <span>
-                        <button onClick={() => {bookInfo(book)}}>Delete</button>
-                        <button onClick={() => {edit(book)}}>Update</button>
+                    <span>{parsedDate}</span>
+                    <span className="editDelete">
+                        <button onClick={() => {bookInfo(book); setIsActive(true)}}>Delete</button>
+                        <button onClick={() => {edit(book); setIsEditActive(true)}}>Update</button>
                     </span>
                 </div>
         })
@@ -63,15 +80,19 @@ const Books: FunctionComponent<IBookProps> = ({ bookList, deleteBook }) => {
     return (
         <div className="list">
             <div className="bookContainer bcTitle" >
-                <span>Name</span><span>Author</span><span>Language</span><span>Date</span><span></span>
+                <span>Name</span><span>Author</span><span>Language</span><span>Finished</span><span>Date</span><span></span>
             </div>
             <ModalDelete
                 book={selectedBook}
                 delBook={deleteBooks}
+                setOpen={setIsActive}
+                open = {isActive}
             />
             <ModalEdit
                 book={isEditing}
                 editBook={editBook}
+                setOpenEdit={setIsEditActive}
+                openEdit={isEditActive}
             />
             {books}
         </div>

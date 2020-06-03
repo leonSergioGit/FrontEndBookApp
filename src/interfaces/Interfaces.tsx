@@ -15,5 +15,6 @@ export interface IBook {
     name: string,
     language: string,
     author: string,
-    isFinished: boolean
+    isFinished: string,
+    date: Date
 }

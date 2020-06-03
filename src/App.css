@@ -1,7 +1,9 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
+h1 {
   text-align: center;
 }
-
 
 .bookContainer {
   display: flex;
@@ -18,7 +20,7 @@
 }
 
 .bookContainer {
-  width: 80%;
+  width: 95%;
   margin: 0 auto;
   
 }
@@ -33,6 +35,14 @@ span {
   font-weight: bolder;
 }
 
+.editDelete button {
+  background-color: cornflowerblue;
+  color: white;
+  border: none;
+  cursor: pointer;
+
+}
+
 .modal {
   background-color: cornflowerblue;
   border: 2px solid black;
@@ -42,6 +52,42 @@ span {
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%)
 
+}
+
+.inputGrid{ 
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 10px;
+  margin-bottom: 10px;
+}
+
+.formAdd {
+  border: 2px solid black;
+  background-color: cornflowerblue;
+  color: white;
+  font-size: 19px;
+  width: 30%;
+  margin: 10px auto 10px;
+  padding: 5px;
+}
+
+.submitAdd {
+  display: block;
+  margin: 0 auto;
+  border: none;
+  background-color: black;
+  color: white;
+  padding: 10px;
+  font-weight: bolder;
+  font-family: 'Roboto';
+}
+
+
+
+
+
+* {
+  font-family: 'Roboto';
 }
 
 @media (prefers-reduced-motion: no-preference) {
