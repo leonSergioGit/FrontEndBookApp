@@ -49,7 +49,9 @@ const ModalEdit:FunctionComponent<ModalProps> = ({ book, editBook, setOpenEdit, 
             setBookAuthor(evt.currentTarget.value);
         }
     
-        const handleLanguage = (evt: FormEvent<HTMLInputElement>) => {
+        const handleLanguage = (evt: FormEvent<HTMLSelectElement>) => {
+
+        
             setBookLanguage(evt.currentTarget.value);
         }
     
@@ -80,7 +82,15 @@ const ModalEdit:FunctionComponent<ModalProps> = ({ book, editBook, setOpenEdit, 
                 <form>
                     <div><label htmlFor="">Name: </label> <input type="text" onChange={handleName} value={bookName || ""} name="name"/></div>
                     <div><label htmlFor="">Author: </label> <input type="text"  onChange={handleAuthor} value={bookAuthor || ""} name="author"/></div>
-                    <div><label htmlFor="">Language </label> <input type="text"  onChange={handleLanguage}  value={bookLanguage || ""}  name="language" /></div>
+                    <div><label htmlFor="">Language </label> 
+                        <select name="" id="" onChange={handleLanguage} >
+                            <option>Select a language</option>
+                            <option value="English">English</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="Japanese">Japanese</option>
+                            <option value="French">French</option>
+                        </select> 
+                    </div>
                     <div><label htmlFor="">Date </label> <input type="date" onChange={handleDate} name="date" /></div>
                     <div>
                         <label htmlFor="">Finished: </label> 

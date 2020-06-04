@@ -61,7 +61,6 @@ const Books: FunctionComponent<IBookProps> = ({ bookList, deleteBook, handleEdit
     if(AllBooks){
         books = AllBooks.map((book, index) => {
             let parsedDate = book.date.toLocaleString().split("T")[0];
-            console.log(parsedDate)
             return <div key={index} className="bookContainer">
                     <span className="bookName">{index = index + 1}. {book.name}</span>
                     <span>{book.author}</span>

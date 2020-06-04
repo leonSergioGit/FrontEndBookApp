@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FunctionComponent, MouseEvent, FormEvent } from 'react';
+import React, { useState, useEffect, FunctionComponent, MouseEvent, FormEvent} from 'react';
 import axios from 'axios';
 import { IBook } from '../interfaces/Interfaces';
 
@@ -34,7 +34,9 @@ const AddBook: FunctionComponent<SendNewBook> =  ( { sendNewBook } )  => {
         setBookAuthor(evt.currentTarget.value);
     }
 
-    const handleLanguage = (evt: FormEvent<HTMLInputElement>) => {
+    const handleLanguage = (evt: FormEvent<HTMLSelectElement>) => {
+        console.log(evt.currentTarget.value)
+
         setBookLanguage(evt.currentTarget.value);
     }
 
@@ -59,12 +61,19 @@ const AddBook: FunctionComponent<SendNewBook> =  ( { sendNewBook } )  => {
 
     return (
         <div className="addBookContainer">
-            <h1>Add book to the database</h1>
+            <h1>Welcome to the Manage your book list API</h1>
            <form className="formAdd">
                <div className="inputGrid">
                 <label htmlFor="">Name: </label> <input type="text" onChange={handleName} name="name"/>
                 <label htmlFor="">Author: </label> <input type="text" onChange={handleAuthor} name="author"/>
-                <label htmlFor="">Language: </label> <input type="text" onChange={handleLanguage} name="language" />
+                <label htmlFor="">Language: </label>
+                <select name="" id="" onChange={handleLanguage} >
+                    <option>Select a language</option>
+                    <option value="English">English</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="French">French</option>
+                </select> 
                 <label htmlFor="">Date </label> <input type="date" onChange={handleDate} name="date" />
                 </div>
                 <div>
